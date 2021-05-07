@@ -15,8 +15,8 @@ class CreateSavedArtisansTable extends Migration
     {
         Schema::create('saved_artisans', function (Blueprint $table) {
             $table->id('id');
-            $table->integer('user_id');
-            $table->increments('artisan_id');
+            $table->biginteger('user_id');
+            $table->bigInteger('artisan_id');
             $table->timestamps();
         });
     }

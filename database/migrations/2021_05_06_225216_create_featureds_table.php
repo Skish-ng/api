@@ -13,7 +13,7 @@ class CreateFeaturedsTable extends Migration
      */
     public function up()
     {
-        Schema::create('featureds', function (Blueprint $table) {
+        Schema::create('featured', function (Blueprint $table) {
             $table->id('id');
             $table->bigInteger('user_id');
 
