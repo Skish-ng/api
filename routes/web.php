@@ -1,6 +1,6 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +15,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     //dd("Starting the API authentication");
+    dd(User::insert('insert into users (id, name) values (integer, integer)', [1, 'Dayle']));
+    dd(end(User::find(1)));
 });
