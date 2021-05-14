@@ -15,6 +15,6 @@ use App\Models\User;
 
 Route::get('/', function () {
     //dd("Starting the API authentication");
-    dd(User::insert('insert into users (id, name) values (integer, integer)', [1, 'Dayle']));
-    dd(end(User::find(1)));
+    //dd(User::insert('insert into users (id, name) values (integer, integer)', [1, 'Dayle']));
+    //dd(end(User::find(1)));
 });

@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
+use App\Http\Controllers\UserController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -14,8 +15,5 @@ use App\Models\User;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-    dd(User::insert('insert into users (id, name) values (?, ?)', [1, 'Dayle']));
-    dd(end(User::find(1)));
-});
+Route::get('/user/search', [UserController::class, 'show']);
+Route::post('/user/new', [UserController::class, 'store']);
