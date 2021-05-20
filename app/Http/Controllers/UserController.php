@@ -18,21 +18,35 @@ class UserController extends Controller
         //dd($request->input('q'));
         $column = DB::select("SHOW COLUMNS FROM skish.users;");
         $column = array_diff($column,["password","role","token","email_verified_at","documents","passport","created_at","updated_at"]);
+<<<<<<< HEAD
 
         //dd($column);
         $array = [];
         for($x = 0;$x < count($column);$x++){
             $col = (array)$column[$x];
             //dd($col);
+=======
+        dd($column);
+
+        $array = [];
+        for($x = 0;$x < count($column);$x++){
+
+            $col = (array)$column[$x];
+>>>>>>> refs/remotes/origin/main
             $colname = $col["Field"];
             print_r($colname);
             $user = DB::select("SELECT * FROM users WHERE ".$colname." LIKE '%similique'");
 
+<<<<<<< HEAD
             print_r($user);
             //dd($colname);
         }
         // $user = User::query("SELECT * FROM users WHERE fullname LIKE '%a'");
         //dd($column);
+=======
+
+        }
+>>>>>>> refs/remotes/origin/main
     }
 
     function store(Request $request)
