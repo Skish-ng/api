@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -13,55 +15,85 @@ class UserController extends Controller
         //return User::all();
     }
 
+    
     function show(Request $request)
     {
-        //dd($request->input('q'));
-        $column = DB::select("SHOW COLUMNS FROM skish.users;");
-        $column = array_diff($column,["password","role","token","email_verified_at","documents","passport","created_at","updated_at"]);
-<<<<<<< HEAD
 
-        //dd($column);
-        $array = [];
-        for($x = 0;$x < count($column);$x++){
-            $col = (array)$column[$x];
-            //dd($col);
-=======
-        dd($column);
+    }
 
-        $array = [];
-        for($x = 0;$x < count($column);$x++){
+    function search(Request $request)
+    {
+        if(!$request->input('q'))
+            die(json_encode([0,"no search request"]));
 
-            $col = (array)$column[$x];
->>>>>>> refs/remotes/origin/main
-            $colname = $col["Field"];
-            print_r($colname);
-            $user = DB::select("SELECT * FROM users WHERE ".$colname." LIKE '%similique'");
+        $columns = ["email","fullname","username","whatsapp","tagline","tel","address","pricing"];
+        $temp = [];
 
-<<<<<<< HEAD
+        foreach($columns as $colname){
+            
+            $user = DB::select("SELECT * FROM users WHERE ".$colname." LIKE '%".$request->input("q")."%'");
+
+        //    if($user != null)
+        //         print_r($user);
+        
+            foreach($user as $userr){
+                $users[] = (Array)$userr;
+            }
+            
+        }
+
+        foreach($users as $user)
             print_r($user);
-            //dd($colname);
-        }
-        // $user = User::query("SELECT * FROM users WHERE fullname LIKE '%a'");
-        //dd($column);
-=======
 
-        }
->>>>>>> refs/remotes/origin/main
     }
 
     function store(Request $request)
     {
-        //extract($request->input);
-        $user = DB::table('users')->insert([
-            'username' => $request->input('name'),
-            'email' => $request->input('email'),
-            'password' => $request->input('email'),
-            'state' => 0,
-            'token' => 0,
+        $fields = $request->validate([
+            'email' => 'required|string',
+            'password' => 'required|string',
         ]);
-        dd($user);
+        
+        $user = User::where('email',$fields['email'])->orwhere('username',$fields['email'])->get()->first();
 
-        dd(('name'));
+        if(!user || Hash::check($fields['password'], $user->password))
+            return(response([0,"incorrect user or password"]));
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+
+        return response($response, 201);
+    }
+
+    function register(Request $request)
+    {
+        $fields = $request->validate([
+            'username' => 'required|string',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|string|confirmed',
+        ]);
+        
+        $user = User::create([
+            'username' => $fields['username'],
+            'email' => $fields['email'],
+            'password' => bcrypt($fields['password']),
+            'state' => 1
+        ]);
+
+        $token = $user->createToken('userToken')->plainTextToken;
+
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+
+        return response($response, 201);
+    }
+
+    function logout(Request $request){
+        auth()->user()->tokens()->delete();
+        return [1,'Logged out'];
     }
 
     function update(Request $request, User $user)

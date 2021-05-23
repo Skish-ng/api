@@ -37,9 +37,9 @@ class CreateUsersTable extends Migration
             $table->text('documents')->nullable();#separated by comma$table->rememberToken();
             $table->text('token');#separated by comma$table->rememberToken();
             $table->timestamps();
+
         });
     }
-
     /**
      * Reverse the migrations.
      *
@@ -47,6 +47,6 @@ class CreateUsersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        //Schema::dropIfExists('users');
     }
 }

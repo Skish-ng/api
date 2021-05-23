@@ -15,5 +15,11 @@ use App\Http\Controllers\UserController;
 |
 */
 
-Route::get('/user/search', [UserController::class, 'show']);
-Route::post('/user/new', [UserController::class, 'store']);
+Route::get('/user/sd', [UserController::class, 'show']);
+Route::post('/user/login', [UserController::class, 'store']);
+Route::post('/user/register', [UserController::class, 'register']);
+Route::post('/user/logout', [UserController::class, 'logout']);
+
+Route::group(['middleware' => ['auth:sanctum']], function(){
+    Route::get('/user/search', [UserController::class, 'search']);
+});
