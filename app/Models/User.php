@@ -17,12 +17,17 @@ class User extends Authenticatable
      *
      * @var array
      */
+    public static function findbyToken($request){
+        $user = User::where('token', $request->bearerToken());
+        print_r($user);
+        return $user;
+    }
     protected $fillable = [
+        'id',
         'email',
         'username',
         'fullname',
         'role',
-        'password',
         'tagline',
         'dp',
         'whatsapp',
@@ -41,7 +46,8 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
-        'remember_token',
+        'token',
+        
     ];
 
     /**
