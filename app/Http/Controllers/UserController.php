@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\User;
+use App\Models\PageView;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -18,7 +19,7 @@ class UserController extends Controller
     
     function show(Request $request, $id)
     {
-        return User::find($id);
+        return User::find($id) ?? "User Not Found";
     }
 
     function search(Request $request)
@@ -118,8 +119,7 @@ class UserController extends Controller
 
     function update(Request $request, $id)
     {
-        $user = User::find($id);
-        die($request->all);
+        print_r($request->file('image'));
 
         if($id != $request->user()->id){
             die(json_encode([0,"User not Authenticated"]));
@@ -138,7 +138,9 @@ class UserController extends Controller
             'image' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'passport' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048' ,
         ]);
+
         extract($fields);
+        $user = User::find($id);
 
         $user->username = @$username ?? $user->username;
         $user->fullname = @$fullname ?? $user->fullname;
@@ -152,35 +154,40 @@ class UserController extends Controller
 
         #PASSWORD
 
-        if($old_password){
+        if(@$old_password){
             if(Hash::check(@$old_password, $user->password)){
                 $user->password = bcrypt($password);
                 $user->save();
-                die([1,"password changed sucessfully"]);
+                die(json_encode([1,"password changed sucessfully"]));
             }
             else{
                 die(json_encode([0,"incorrect old password"]));
             }
         }
         
-    //     die($request->file());
-    //     if($request->hasfile('image')){
-    //         $imageName = $user->username.'.'.$request->image->extension();
-    //         $request->image->move(public_path('images'), $imageName);
+        //FILE
+        if($request->hasfile('image')){
+            $imageName = $user->username.'.'.$request->image->extension();
+            $request->image->move(public_path('images'), $imageName);
 
-    //         $user->dp = 'images/'.$imageName;
-    //     }
-    //    //$user = User::findbyToken($request);
+            $user->dp = 'images/'.$imageName;
+        }
+       //$user = User::findbyToken($request);
         
-    //    $user->save();
-    //    $user->refresh();
+       $user->save();
+       $user->refresh();
 
-    //    die($user);
+       die($user);
     }
 
     function delete(User $user)
     {
 
+    }
+
+    
+    function views(Request $request)
+    {
     }
 }
 

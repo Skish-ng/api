@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\User;
 
 class User extends Authenticatable
 {
@@ -17,15 +18,12 @@ class User extends Authenticatable
      *
      * @var array
      */
-    public static function findbyToken($request){
-        $user = User::where('token', $request->bearerToken());
-        print_r($user);
-        return $user;
-    }
+    
     protected $fillable = [
         'id',
         'email',
         'username',
+        'password',
         'fullname',
         'role',
         'tagline',

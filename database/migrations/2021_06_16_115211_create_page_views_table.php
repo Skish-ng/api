@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAdvertsTable extends Migration
+class CreatePageViewsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,19 +13,12 @@ class CreateAdvertsTable extends Migration
      */
     public function up()
     {
-        Schema::create('adverts', function (Blueprint $table) {
+        Schema::create('page_views', function (Blueprint $table) {
             $table->id();
-
-            $table->string('title');
-
-            $table->date('start');
-            $table->date('end');
-
-            $table->integer('amount');
+            $table->integer('user_id');
+            
             $table->string('type');
-
-            $table->integer('demo');#in representative terms
-            $table->string('file');
+            $table->text('viewer');
 
             $table->timestamps();
         });
@@ -38,6 +31,6 @@ class CreateAdvertsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('adverts');
+        Schema::dropIfExists('page_views');
     }
 }
