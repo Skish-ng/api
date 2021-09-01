@@ -34,7 +34,9 @@ class User extends Authenticatable
         'pricing',
         'state',
         'passport',
-        'documents'
+        'doc1',
+        'doc2',
+        'doc3',
     ];
 
     /**

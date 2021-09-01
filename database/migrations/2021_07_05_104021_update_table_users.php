@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateUserTable extends Migration
+class UpdateTableUsers extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class UpdateUserTable extends Migration
      */
     public function up()
     {
-        
         Schema::table('users', function (Blueprint $table) {
+
+            $table->string('doc1')->nullable();
+            $table->string('doc2')->nullable();
+
+            $table->string('doc3')->nullable();
             
-        
-            $table->string('token')->nullable()->change(); 
         });
     }
 

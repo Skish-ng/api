@@ -5,16 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Message extends Model
+class Featured extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'reciever',
-        'sender',
-        'state',
+        'id',
+        'user_id',
+        'title',
         'body',
-        'file'
+        'image',
     ];
-
 }

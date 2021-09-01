@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class UpdateUserTable extends Migration
+class CreatePriceinfosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,15 @@ class UpdateUserTable extends Migration
      */
     public function up()
     {
-        
-        Schema::table('users', function (Blueprint $table) {
-            
-        
-            $table->string('token')->nullable()->change(); 
+        Schema::create('priceinfos', function (Blueprint $table) {
+            $table->id();
+            $table->Integer('user_id');
+
+            $table->Integer('min');
+            $table->Integer('max');
+
+            $table->text('desc');
+            $table->timestamps();
         });
     }
 
@@ -28,6 +32,6 @@ class UpdateUserTable extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('priceinfos');
     }
 }

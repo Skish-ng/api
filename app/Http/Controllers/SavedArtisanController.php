@@ -25,28 +25,17 @@ class SavedArtisanController extends Controller
             $users[] = User::find($savedArtisan->artisan_id);
         }
 
-        return $users;
+        $response = [
+            'savedArtisan' => $users,
+            'message' => "Saved Artisans"
+        ];
+        return response($response, 201);
     }
 
 
     function search(Request $request)
     {
-        // $fields = $request->validate([
-        //     'q' => 'required',
-        // ]);
-        // extract($fields);
         
-        // $user = auth()->user();
-        // $users = $this->show($request);
-        
-        
-        // //Check if query is not empty
-        // foreach($users as $auser){
-        //     $search_user = User::find($auser->id);
-        //     die($saerch_user);
-        // }
-
-        // die();
     }
 
 
@@ -58,11 +47,19 @@ class SavedArtisanController extends Controller
             'artisan_id' => 'integer|required|not_in:'.$user->id,
         ]);
 
-        $alreadySavedArtisans = $this->show($request);
+        $alreadySavedArtisans = SavedArtisan::where('user_id',$user->id)->get();
 
-        foreach($alreadySavedArtisans as $aSavedArtisan){
-            if($aSavedArtisan->artisan_id = $fields['artisan_id'])
-                die("User Have been Saved Already");
+        foreach($alreadySavedArtisans as $aSavedArtisan)
+        {
+            if($aSavedArtisan->artisan_id == $fields['artisan_id'])
+            {
+                
+                $response = [
+                    'message' => "User Have been Saved Already"
+                ];
+                return response($response, 422);
+                die();
+            }
         }
 
         SavedArtisan::create([
@@ -70,17 +67,29 @@ class SavedArtisanController extends Controller
             'artisan_id' => $fields['artisan_id'],
         ]);
 
-        die(json_encode([1,"Successfully Added"]));
+        $response = [
+            'message' => "User Have been Saved Sucessfully"
+        ];
+        return response($response, 201);
 
     }
 
     function delete(Request $request,$id)
     {
-        if(!SavedArtisan::find($id)){
-            die("Object does not exist");
+        if(!SavedArtisan::find($id))
+        {
+            $response = [
+                'message' => "Object does not exist"
+            ];
+            return response($response, 404);
         }
+
         SavedArtisan::find($id)->delete();
-        die(json_encode([1,"Successfully Deleted"]));
+        
+        $response = [
+            'message' => "Deleted Successfully"
+        ];
+        return response($response, 201);
     }
 }
 

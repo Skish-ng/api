@@ -22,9 +22,12 @@ class CreateUsersTable extends Migration
             $table->string('tagline')->nullable();
             $table->string('dp')->nullable();
 
-            $table->string('tel')->nullable();
             $table->string('whatsapp')->nullable();
+            $table->string('category')->nullable();
             $table->string('address')->nullable();
+
+            $table->string('tel')->nullable();
+            $table->timestamp('tel_verified_at')->nullable();
 
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
@@ -32,10 +35,9 @@ class CreateUsersTable extends Migration
             $table->text('bio')->nullable();
             $table->text('pricing')->nullable();
 
-            $table->tinyInteger('state');
+            $table->Integer('state');
             $table->text('passport')->nullable();
-            $table->text('documents')->nullable();#separated by comma$table->rememberToken();
-            $table->text('token');#separated by comma$table->rememberToken();
+            $table->text('token');
             $table->timestamps();
 
         });
