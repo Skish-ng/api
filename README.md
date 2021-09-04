@@ -2,4 +2,4 @@
 
 <a href="https://documenter.getpostman.com/view/17224238/TzzHnDad">https://documenter.getpostman.com/view/17224238/TzzHnDad</a>
 <h1>Link</h1>
-<a href="http://rocky-coast-51372.herokuapp.com">http://rocky-coast-51372.herokuapp.com</a>
+<a href="https://skish-ng-api.herokuapp.com/api/">https://skish-ng-api.herokuapp.com/api/</a>
